@@ -18,10 +18,10 @@ O TrueNAS atua como o núcleo de armazenamento do projeto. Foram provisionados *
 Para garantir a proteção nativa dos dados contra exclusões acidentais ou ransomware, foram implementadas tarefas de **Snapshots Periódicos**.
 
 > **Estrutura de Datasets e Zvols:**
-> ![Datasets no TrueNAS](imagens/truenas_core_10.png)
+> ![Datasets no TrueNAS](imagens/03_TrueNAS_Datasets_Zvol.png)
 > 
 > **Rotina de Snapshots:**
-> ![Snapshots Automatizados](imagens/truenas_core_2.png)
+> ![Snapshots Automatizados](imagens/09_TrueNAS_Snapshots_ZFS.png)
 
 ---
 
@@ -32,10 +32,10 @@ Para distribuir o armazenamento pela rede, dois protocolos foram utilizados simu
 *   **SMB/CIFS (File Level):** Os Datasets foram compartilhados na rede para que as máquinas clientes e servidores pudessem mapear unidades de rede nativas.
 
 > **Conexão iSCSI Estabelecida:**
-> ![iSCSI Status](imagens/truenas_core_11.png)
+> ![iSCSI Status](imagens/04_Windows_iSCSI_Connect.png)
 > 
 > **Unidades Mapeadas no Client Windows (This PC):**
-> ![Unidades Windows](imagens/truenas_core_19.jpg)
+> ![Unidades Windows](imagens/06_Windows_Unidades_SMB_Rede.jpg)
 
 ---
 
@@ -46,10 +46,10 @@ A estratégia de backup foi desenhada para garantir eficiência de armazenamento
 Durante a execução, o escopo dos jobs foi otimizado (migrando de *Entire Computer* para *Volume-level backup*), garantindo que os dados coubessem perfeitamente no LUN alocado sem esgotar o armazenamento do Storage.
 
 > **Repositórios de Infraestrutura:**
-> ![Repositórios Veeam](imagens/truenas_core_7.png)
+> ![Repositórios Veeam](imagens/07_Veeam_Repositorios_Tiering.png)
 > 
 > **Job de Backup Processado com Sucesso:**
-> ![Veeam Job](imagens/truenas_core_15.jpg)
+> ![Veeam Job](imagens/08_Veeam_Job_Backup_Sucesso.jpg)
 
 ---
 
@@ -58,7 +58,7 @@ Durante a execução, o escopo dos jobs foi otimizado (migrando de *Entire Compu
 Seguindo a regra de backup 3-2-1, uma camada de resiliência externa (*off-site*) foi configurada nativamente no storage. Os dados críticos são sincronizados diariamente (modo PULL/COPY) para o **Google Drive**, garantindo recuperação em caso de falha física total do laboratório.
 
 > **Sincronização em Nuvem (Google Drive):**
-> ![Cloud Sync](imagens/truenas_core_13.png)
+> ![Cloud Sync](imagens/10_CloudSync_GoogleDrive.png)
 
 ---
 
@@ -70,13 +70,13 @@ O **Zabbix** faz a coleta de métricas via SNMP (para o TrueNAS e pfSense) e via
 Triggers foram configuradas para monitorar uso de CPU, swap, perda de pacotes ICMP e espaço em disco. O **Grafana** consome a API do Zabbix para entregar visualizações em tempo real, e automações (Action Rules) disparam e-mails para a equipe em caso de incidentes.
 
 > **Inventário de Hosts Monitorados (Zabbix):**
-> ![Hosts Zabbix](imagens/truenas_core_6.png)
+> ![Hosts Zabbix](imagens/11_Zabbix_Inventario_Hosts.png)
 > 
 > **Dashboards de Tempo Real (Grafana):**
-> ![Dashboard Grafana](imagens/truenas_core_1.png)
+> ![Dashboard Grafana](imagens/12_Grafana_Dashboard_NOC.png)
 > 
 > **Validação de Notificação por E-mail (SMTP):**
-> ![Alerta de Email](imagens/truenas_core_5.png)
+> ![Alerta de Email](imagens/13_Zabbix_Alerta_Email_SMTP.png)
 
 ---
-*Projeto desenvolvido e documentado com foco em arquitetura corporativa real, *troubleshooting* avançado de redes/armazenamento e melhores práticas de infraestrutura de TI.*
+*Projeto desenvolvido e documentado com foco em arquitetura corporativa real, troubleshooting avançado de redes/armazenamento e melhores práticas de infraestrutura de TI.*
