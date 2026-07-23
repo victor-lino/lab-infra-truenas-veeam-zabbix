@@ -1,5 +1,7 @@
 # 🏢 Laboratório de Infraestrutura Corporativa: Armazenamento, Backup e Observabilidade
 
+![Capa do Projeto](images/01_Capa_Projeto_Infra.png)
+
 Este repositório documenta a implementação de um laboratório prático simulando um ambiente corporativo de alta disponibilidade. O projeto abrange a configuração centralizada de armazenamento, políticas de proteção de dados, monitoramento ativo e integração de infraestrutura.
 
 ## 🛠️ Tecnologias e Arquitetura
@@ -8,6 +10,9 @@ Este repositório documenta a implementação de um laboratório prático simula
 *   **Backup e Proteção:** Veeam Backup & Replication (Agent, Block-level Backup, Backup Copy)
 *   **Observabilidade:** Zabbix Server (SNMP/Agents) e Grafana
 *   **Infraestrutura de Rede:** pfSense (Firewall) e Windows Server (Active Directory / File Server)
+
+> **Diagrama de Arquitetura da Solução:**
+> ![Arquitetura e Topologia](images/02_Arquitetura_Topologia.jpg)
 
 ---
 
@@ -18,10 +23,10 @@ O TrueNAS atua como o núcleo de armazenamento do projeto. Foram provisionados *
 Para garantir a proteção nativa dos dados contra exclusões acidentais ou ransomware, foram implementadas tarefas de **Snapshots Periódicos**.
 
 > **Estrutura de Datasets e Zvols:**
-> ![Datasets no TrueNAS](imagens/03_TrueNAS_Datasets_Zvol.png)
+> ![Datasets no TrueNAS](images/03_TrueNAS_Datasets_Zvol.png)
 > 
 > **Rotina de Snapshots:**
-> ![Snapshots Automatizados](imagens/09_TrueNAS_Snapshots_ZFS.png)
+> ![Snapshots Automatizados](images/09_TrueNAS_Snapshots_ZFS.png)
 
 ---
 
@@ -32,10 +37,13 @@ Para distribuir o armazenamento pela rede, dois protocolos foram utilizados simu
 *   **SMB/CIFS (File Level):** Os Datasets foram compartilhados na rede para que as máquinas clientes e servidores pudessem mapear unidades de rede nativas.
 
 > **Conexão iSCSI Estabelecida:**
-> ![iSCSI Status](imagens/04_Windows_iSCSI_Connect.png)
+> ![iSCSI Status](imagns/04_Windows_iSCSI_Connect.png)
+> 
+> **Unidade iSCSI Local (Gerenciamento de Disco):**
+> ![Unidade iSCSI Local](images/05_Windows_Unidade_iSCSI_Local.png)
 > 
 > **Unidades Mapeadas no Client Windows (This PC):**
-> ![Unidades Windows](imagens/06_Windows_Unidades_SMB_Rede.jpg)
+> ![Unidades Windows](images/06_Windows_Unidades_SMB_Rede.jpg)
 
 ---
 
@@ -46,10 +54,10 @@ A estratégia de backup foi desenhada para garantir eficiência de armazenamento
 Durante a execução, o escopo dos jobs foi otimizado (migrando de *Entire Computer* para *Volume-level backup*), garantindo que os dados coubessem perfeitamente no LUN alocado sem esgotar o armazenamento do Storage.
 
 > **Repositórios de Infraestrutura:**
-> ![Repositórios Veeam](imagens/07_Veeam_Repositorios_Tiering.png)
+> ![Repositórios Veeam](images/07_Veeam_Repositorios_Tiering.png)
 > 
 > **Job de Backup Processado com Sucesso:**
-> ![Veeam Job](imagens/08_Veeam_Job_Backup_Sucesso.jpg)
+> ![Veeam Job](images/08_Veeam_Job_Backup_Sucesso.jpg)
 
 ---
 
@@ -58,7 +66,7 @@ Durante a execução, o escopo dos jobs foi otimizado (migrando de *Entire Compu
 Seguindo a regra de backup 3-2-1, uma camada de resiliência externa (*off-site*) foi configurada nativamente no storage. Os dados críticos são sincronizados diariamente (modo PULL/COPY) para o **Google Drive**, garantindo recuperação em caso de falha física total do laboratório.
 
 > **Sincronização em Nuvem (Google Drive):**
-> ![Cloud Sync](imagens/10_CloudSync_GoogleDrive.png)
+> ![Cloud Sync](images/10_CloudSync_GoogleDrive.png)
 
 ---
 
@@ -70,13 +78,13 @@ O **Zabbix** faz a coleta de métricas via SNMP (para o TrueNAS e pfSense) e via
 Triggers foram configuradas para monitorar uso de CPU, swap, perda de pacotes ICMP e espaço em disco. O **Grafana** consome a API do Zabbix para entregar visualizações em tempo real, e automações (Action Rules) disparam e-mails para a equipe em caso de incidentes.
 
 > **Inventário de Hosts Monitorados (Zabbix):**
-> ![Hosts Zabbix](imagens/11_Zabbix_Inventario_Hosts.png)
+> ![Hosts Zabbix](images/11_Zabbix_Inventario_Hosts.png)
 > 
 > **Dashboards de Tempo Real (Grafana):**
-> ![Dashboard Grafana](imagens/12_Grafana_Dashboard_NOC.png)
+> ![Dashboard Grafana](images/12_Grafana_Dashboard_NOC.png)
 > 
 > **Validação de Notificação por E-mail (SMTP):**
-> ![Alerta de Email](imagens/13_Zabbix_Alerta_Email_SMTP.png)
+> ![Alerta de Email](images/13_Zabbix_Alerta_Email_SMTP.png)
 
 ---
 *Projeto desenvolvido e documentado com foco em arquitetura corporativa real, troubleshooting avançado de redes/armazenamento e melhores práticas de infraestrutura de TI.*
